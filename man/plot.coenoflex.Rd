@@ -9,7 +9,7 @@
 
 \arguments{
 \item{x}{an object of class \sQuote{coenoflex}}
-\item{which}{a switch to control plotiing just \sQuote{plots}, \sQuote{species},
+\item{which}{a switch to control ploting just \sQuote{plots}, \sQuote{species},
             \sQuote{amplitude}, or \sQuote{all} attributes}
 \item{\dots}{ancillary arguments for the plot generic function}
 }
