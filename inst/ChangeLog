@@ -1,0 +1,8 @@
+coenoflex 2.0-1
+
+1) coenoflex was converted to a NAMESPACE implementation
+
+2) an internal FORTRAN write statment was eliminated
+and replaced with a string substitution
+
+3) the documentation was tidied up slightly

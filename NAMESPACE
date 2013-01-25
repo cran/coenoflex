@@ -8,3 +8,5 @@ exportPattern(".")
 import(
   mgcv
 )
+
+useDynLib(coenoflex)

@@ -10,7 +10,8 @@ gradient response functions.  Simulated samples can be placed at random or on a
 grid on up to 10 dimensions; species modes can be placed at random or on a grid.
 }
 \usage{coenoflex(numgrd,numplt,numspc,grdtyp,grdlen,width,variab,grdprd,
-                alphad,pdist,sdist,skew,aacorr,cmpasy,cmpphy,maxtot,noise,slack,autlin)}
+                 alphad,pdist,sdist,skew,aacorr,cmpasy,cmpphy,
+                 maxtot,noise,slack,autlin)}
 \arguments{
     \item{numgrd}{number of gradients to simulate}
     \item{numplt}{number of sample plots}
@@ -19,7 +20,7 @@ grid on up to 10 dimensions; species modes can be placed at random or on a grid.
 gradients}
     \item{grdlen}{a vector of gradient length equal in length to the number of 
 gradients}
-    \item{width}{a vector or gradient width equal in length to the number of
+    \item{width}{a vector of species ecological amplitude width equal in length to the number of
 gradients}
     \item{variab}{a vector of gradient variability equal in length to the number of
 gradients}
@@ -182,7 +183,7 @@ for light.  The algorithm scales species abundance
 proportional to raw abundance raised to the competition
 asymmetry coefficient.  Accordingly, a value of 1.0
 confers no advantage, and increasingly larger values
-give large species more advantage.
+give large species more advantage.  
 
 \sQuote{maxtot} Maximum total abundance in sample plots.
 The typical total abundance of sample plots is normally a simple
@@ -241,11 +242,14 @@ functions}
 }
 
 \references{
-Austin, M.P. and T.M. SMith.  1989.  A new model for the continuum concept.
+Austin, M.P. and T.M. Smith.  1989.  A new model for the continuum concept.
 Vegetatio 83:35-47.
 
 Collins, S.L., S. Glenn, and D.W. Roberts.  1993.  The hierarchical
-continuum concept.  J. Veg. Sci. 4:149-156.}
+continuum concept.  J. Veg. Sci. 4:149-156.
+
+Roberts, D.W.  2008.  Statistical analysis of multidimensional
+fuzzy set ordination.  Ecology 89:1246-1260.}
 
 \author{
     David W. Roberts

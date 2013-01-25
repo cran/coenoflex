@@ -312,8 +312,11 @@ c* local
 c
       integer stkpnt,numlft,maxlin
       character*3 tmparg
+      character*2 xstk(10)
 c
 c* autpar ********************* one *****************************
+c
+      data xstk /'11','12','13','14','15','16','17','18','19','20'/
 c
       maxnst = 0
       stkpnt = 0
@@ -369,7 +372,7 @@ c
             do 14 k=i-3,j
             line(k:k) = ' '
    14       continue
-            write(line(i-3:i-1),'(i2)')  stkpnt + 10
+            line(i-3:i-1) = xstk(stkpnt)
             call collap(line)
             goto 10
           endif
