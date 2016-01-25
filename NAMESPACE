@@ -9,4 +9,8 @@ import(
   mgcv
 )
 
+importFrom("graphics", "lines", "plot")
+
+S3method(plot,coenoflex)
+
 useDynLib(coenoflex)

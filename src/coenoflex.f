@@ -1,4 +1,5 @@
-      subroutine rndplt(numplt,numgrd,centrd,grdlth,grdprd,pltprd)
+      subroutine rndplt(numplt,numgrd,centrd,grdlth,grdprd,pltprd,
+     +                  grdpos)
 c
       integer numplt
       integer numgrd
@@ -17,11 +18,17 @@ c* scratch
 c
       double precision grdpos
 c
+c* library
+c
+      double precision unifrnd
+c
 c* coenoflex/rndplt ************** one ********************************
 c
+      call rndstart()
+
       do 10 i=1,numplt
         do 11 j=1,numgrd
-        centrd(i,j) = rand() *grdlth(j)
+        centrd(i,j) = unifrnd() *grdlth(j)
    11   continue
 c
       if (all(grdprd == 1.0)) then
@@ -38,12 +45,14 @@ c
       endif
    10 continue
 c
+      call rndend()
+c
       return
 c
       end
 c
       subroutine fixplt(maxplt,numgrd,grdlth,grdprd,centrd,pltprd,
-     +           numpts,index)
+     +           size,expans,grdpos,numpts,totsam,index)
 c
 c* common params
 c
@@ -113,7 +122,7 @@ c
 c
       subroutine rndspc(numspc,numgrd,spcamp,maxabu,grdlth,
      +                  alphad,width,variab,grdtyp,
-     +                  skew,hiecon)
+     +                  skew,hiecon,fudge,hcnadj,maxval)
 c
 c* parameters
 c
@@ -144,7 +153,11 @@ c
       double precision hcnadj
       double precision maxval
 c
+      double precision unifrnd
+c
 c* coenoflex/rndspc *************** one *****************************
+c
+      call rndstart()
 c
       maxval = 0.0
       do 10 i=1,numspc
@@ -153,7 +166,7 @@ c
       else
         maxabu(i) = 0.0
         do 11 j=1,3
-        maxabu(i) = maxabu(i) + rand()
+        maxabu(i) = maxabu(i) + unifrnd()
    11   continue
         maxabu(i) = (maxabu(i)/3.0)**skew 
       endif
@@ -168,12 +181,12 @@ c
       hcnadj = 1.0 + ((maxabu(i)/100.0)-0.5) * hiecon
         do 14 j=1,numgrd
         range = grdlth(j) + width(j)
-        center = rand()**alphad(j)
+        center = unifrnd()**alphad(j)
         if (grdtyp(j) .eq. 1) then
           spcamp(i,j,3) = center * range - (width(j)/2.0)
-          fudge = (rand() - 0.5) * variab(j)/50.0 * width(j)
+          fudge = (unifrnd() - 0.5) * variab(j)/50.0 * width(j)
           spcamp(i,j,1) = spcamp(i,j,3) - width(j)*hcnadj + fudge
-          fudge = (rand() - 0.5) * variab(j)/50.0 * width(j)
+          fudge = (unifrnd() - 0.5) * variab(j)/50.0 * width(j)
           spcamp(i,j,5) = spcamp(i,j,3) + width(j)*hcnadj + fudge
           spcamp(i,j,2) = (spcamp(i,j,1) + spcamp(i,j,3)) / 2.0
           spcamp(i,j,4) = (spcamp(i,j,3) + spcamp(i,j,5)) / 2.0
@@ -191,11 +204,14 @@ c         maxabu(i) = min(100.0,maxabu(i) * (1.5 - (1.0-center)))
 c
    13 continue
 c
+      call rndend()
+c
       return
 c
       end
       subroutine fixspc(numspc,numgrd,spcamp,maxabu,grdlth,width,
-     +                  variab,grdtyp,skew,hiecon,numpts,index)
+     +                  variab,grdtyp,skew,hiecon,size,expans,
+     +                  numpts,index,center,fudge,hcnadj)
 c
 c* parameters
 c
@@ -229,7 +245,11 @@ c
       double precision fudge
       double precision hcnadj
 c
+      double precision unifrnd
+c
 c***************************** one *********************************
+c
+      call rndstart()
 c
       size = 1.0
       do 10 i=1,numgrd
@@ -256,7 +276,7 @@ c
       else
         maxabu(i) = 0.0
         do 12 j=1,3
-        maxabu(i) = maxabu(i) + rand()
+        maxabu(i) = maxabu(i) + unifrnd()
    12   continue
         maxabu(i) = (maxabu(i)/3.0)**skew * 100.0
       endif
@@ -271,9 +291,9 @@ c    +                   (grdlth(j)/(numpts(j)-1))
      +                (range/(numpts(j)-1)) - width(j)/2
 c         spcamp(i,j,3) = center * range - (width(j)/2.0)
           spcamp(i,j,3) = center 
-          fudge = (rand() - 0.5) * variab(j)/50.0 * width(j)
+          fudge = (unifrnd() - 0.5) * variab(j)/50.0 * width(j)
           spcamp(i,j,1) = spcamp(i,j,3) - width(j)*hcnadj + fudge
-          fudge = (rand() - 0.5) * variab(j)/50.0 * width(j)
+          fudge = (unifrnd() - 0.5) * variab(j)/50.0 * width(j)
           spcamp(i,j,5) = spcamp(i,j,3) + width(j)*hcnadj + fudge
           spcamp(i,j,2) = (spcamp(i,j,1) + spcamp(i,j,3)) / 2.0
           spcamp(i,j,4) = (spcamp(i,j,3) + spcamp(i,j,5)) / 2.0
@@ -292,140 +312,12 @@ c         maxabu(i) = min(100.0,maxabu(i) * (1.5 - (1.0-center)))
    15   continue
    14 continue
 c
-      return
-c
-      end
-      subroutine autpar(line,argmnt,grdlst,numper,count)
-c
-c* arglst
-c
-      integer argmnt(10)    ! LIST OF COMMAND LINE ARGUMENTS
-      integer grdlst(10,10)
-      integer numper(10)
-      integer count            ! NUMBER OF ARGUMENTS PASSED
-c
-c* passed
-c
-      character*255 line          ! TEXT LINE CONTAINING ARGUMENTS
-c
-c* local
-c
-      integer stkpnt,numlft,maxlin
-      character*3 tmparg
-      character*2 xstk(10)
-c
-c* autpar ********************* one *****************************
-c
-      data xstk /'11','12','13','14','15','16','17','18','19','20'/
-c
-      maxnst = 0
-      stkpnt = 0
-      count = 0
-      maxlin = 0
-c
-      call tolower(line)
-c
-   10 numlft = 0
-      maxnst = 0
-      do 11 i=1,80
-      if (line(i:i) .eq. '(') then
-        numlft = numlft + 1
-        maxnst = max(maxnst,numlft)
-      else if (line(i:i) .eq. ')') then
-        numlft = numlft - 1
-        if (numlft .eq. 0) maxlin = i
-      endif
-   11 continue
-c
-c     if (numlft .ne. 0) write(6,*) ' unbalanced parentheses '
-c
-      numlft = 0
-      do 12 i=1,maxlin
-      if (line(i:i) .eq. '(') then
-        numlft = numlft + 1
-        if (numlft .eq. maxnst) then
-          count = count + 1
-          tmparg = line(i-3:i-1)
-          if (tmparg .eq. 'ave') then
-            argmnt(count) = 1
-          else if (tmparg .eq. 'min') then
-            argmnt(count) = 2
-          else if (tmparg .eq. 'max') then
-            argmnt(count) = 3
-          else if (tmparg .eq. 'geo') then
-            argmnt(count) = 4
-          else
-            argmnt(count) = 5
-          endif
-          do 13 j=i,255
-          if (line(j:j) .eq. ',' .or. line(j:j) .eq. ')') then
-            numper(count) = numper(count) + 1
-            if (line(j-2:j-2) .ne. '(' .and.
-     +          line(j-2:j-2) .ne. ',') then
-              read(line(j-2:j-1),'(i2)') grdlst(count,numper(count))
-            else
-              read(line(j-1:j-1),'(i1)') grdlst(count,numper(count))
-            endif
-          endif
-          if (line(j:j) .eq. ')') then
-            stkpnt = stkpnt + 1
-            do 14 k=i-3,j
-            line(k:k) = ' '
-   14       continue
-            line(i-3:i-1) = xstk(stkpnt)
-            call collap(line)
-            goto 10
-          endif
-   13     continue
-        endif
-      else if (line(i:i) .eq. ')') then
-        numlft = numlft - 1
-      endif
-   12 continue
+      call rndend()
 c
       return
 c
       end
 c
-c* coenoflex/tolower ******************************************************
-c
-      subroutine tolower(line)
-c
-      character*255 line
-c
-      do 10 i=1,255
-      if (ichar(line(i:i)) .ge. 65 .and.
-     +    ichar(line(i:i)) .le. 90) then
-        line(i:i) = char(ichar(line(i:i)) + 32)
-      endif
-   10 continue
-c
-      return
-c
-      end
-c
-c* coenoflex/collap **********************************************************
-c
-      subroutine collap(line)
-c
-      character*255 line
-c
-   10 do 11 i=255,1,-1
-      if (line(i:i) .ne. ' ') then
-        do 12 j=i,1,-1
-        if (line(j:j) .eq. ' ') then
-          do 13 k=j,i
-          line(k:k) = line(k+1:k+1)
-   13     continue
-          goto 10
-        endif
-   12   continue
-      endif
-   11 continue
-c
-      return
-c
-      end
 c
       subroutine auteco(numspc,numgrd,argmnt,grdlst,numper,count,physio)
 c
@@ -677,7 +569,6 @@ c
       double precision cmpasy
       double precision cmpphy
       double precision diff(numspc)
-      integer i
 c
 c* local
 c
@@ -756,7 +647,11 @@ c
       double precision extra
       double precision sumdif
 c
+      double precision unifrnd
+c
 c* coenoflex/syneco ************ one *******************************
+c
+      call rndstart()
 c
       sum = 0.0
       wgtsum = 0.0
@@ -766,14 +661,14 @@ c
       if (physio(i,final) .le. 0.0) then
         abunda(plot,i) = 0.0
       else
-        test = rand()
+        test = unifrnd()
         if (test .lt. slack) then
           abunda(plot,i) = 0.0
           goto 10
         endif
         abunda(plot,i) = maxabu(i) * physio(i,final) * pltprd(plot)
         abunda(plot,i) = abunda(plot,i) +
-     +        (rand()-0.5) * noise/50.0 * abunda(plot,i)
+     +        (unifrnd()-0.5) * noise/50.0 * abunda(plot,i)
         sum = sum + abunda(plot,i)
         diff(i) = (1.0-physio(i,final))**cmpphy * abunda(plot,i)
         sumdif = sumdif + diff(i)
@@ -803,6 +698,8 @@ c
         endif
    13   continue
       endif
+c
+      call rndend()
 c
       return
 c

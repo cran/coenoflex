@@ -1,3 +1,13 @@
+coenoflex_2.1-0
+
+1) coenoflex underwent a fairly significant renovation to deal with problems
+parsing strings in FORTRAN.  Specifically, the autpar() function which parses
+the autecology gradient function was re-written entirely in R to avoid passing
+any strings to FORTRAN.  This allowed eliminating the AUTPAR, TOLOWER, and
+COLLAP subroutines from the FORTRAN code.
+
+2) the plot function was re-written to allow single gradient plots
+
 coenoflex 2.0-1
 
 1) coenoflex was converted to a NAMESPACE implementation
