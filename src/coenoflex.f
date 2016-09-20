@@ -152,6 +152,8 @@ c
       double precision fudge
       double precision hcnadj
       double precision maxval
+      double precision range
+      double precision center
 c
       double precision unifrnd
 c
@@ -244,6 +246,8 @@ c
       double precision center
       double precision fudge
       double precision hcnadj
+      double precision range
+      integer totsam
 c
       double precision unifrnd
 c
@@ -305,7 +309,7 @@ c         spcamp(i,j,3) = center * range - (width(j)/2.0)
           spcamp(i,j,1) = spcamp(i,j,2)-(spcamp(i,j,3)-spcamp(i,j,2))
           spcamp(i,j,4) = grdlth(j)
           spcamp(i,j,5) = grdlth(j)
-c         maxabu(i) = min(100.0,maxabu(i) * (1.5 - (1.0-center)))
+c         maxabu(i) = min(dble(100.0),maxabu(i) * (1.5 - (1.0-center)))
           maxabu(i) = maxabu(i) * 
      +              (1-((grdlth(j)-spcamp(i,j,2))/grdlth(j)))
         endif
@@ -381,6 +385,10 @@ c* passed in
 c
       integer stack
 c
+c* local
+c  
+      double precision tmp
+c
       do 10 i=1,numspc
       tmp = 0.0
         do 11 j=1,numper(stack)
@@ -414,6 +422,10 @@ c
 c* passed
 c
       integer stack
+c
+c* local
+c
+      double precision tmp
 c
       do 10 i=1,numspc
       tmp = 1.0
@@ -449,6 +461,10 @@ c* passed
 c
       integer stack
 c
+c* local
+c
+      double precision tmp
+c
       do 10 i=1,numspc
       tmp = 0.0
         do 11 j=1,numper(stack)
@@ -483,6 +499,10 @@ c* passed
 c
       integer stack
 c
+c* local
+c
+      double precision tmp
+c
       do 10 i=1,numspc
       tmp = 1.0
         do 11 j=1,numper(stack)
@@ -516,6 +536,10 @@ c
 c* passed
 c
       integer stack
+c
+c* passed
+c
+      double precision tmp
 c
       do 10 i=1,numspc
       tmp = 0.0
@@ -646,6 +670,9 @@ c* local
 c
       double precision extra
       double precision sumdif
+      double precision test
+      double precision sum
+      double precision wgtsum
 c
       double precision unifrnd
 c
@@ -691,10 +718,10 @@ c
    12   continue
 c
         do 13 i=1,numspc
-        abunda(plot,i) = max(0.0,abunda(plot,i))
+        abunda(plot,i) = max(dble(0.0),abunda(plot,i))
         if (abunda(plot,i) .gt. 0.0) then
           abunda(plot,i) = maxtot * 
-     +             min(100.0,(abunda(plot,i)**cmpasy/wgtsum))
+     +             min(dble(100.0),(abunda(plot,i)**cmpasy/wgtsum))
         endif
    13   continue
       endif

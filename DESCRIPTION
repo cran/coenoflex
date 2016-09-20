@@ -1,6 +1,6 @@
 Package: coenoflex
-Version: 2.1-0
-Date: 2016-01-23
+Version: 2.2-0
+Date: 2016-09-18
 Title: Gradient-Based Coenospace Vegetation Simulator
 Author: David W. Roberts <droberts@montana.edu>
 Maintainer: David W. Roberts <droberts@montana.edu>
@@ -10,7 +10,7 @@ Description: Simulates the composition of samples of vegetation
         flexible algorithm incorporating competition and complex
         multi-gradient interaction.
 License: GPL (>= 2)
-Packaged: 2016-01-23 23:35:52 UTC; dvrbts
+Packaged: 2016-09-18 20:22:08 UTC; dvrbts
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2016-01-25 14:37:43
+Date/Publication: 2016-09-20 18:46:40

@@ -1,8 +1,8 @@
-59657789c6a6a196911107ace765e9da *DESCRIPTION
+deef3db62105b628cf2d0d49286dc6d3 *DESCRIPTION
 1ba8dc70a9fb5784f23166d38d21d39a *NAMESPACE
 cb473f76882b045e3d34895ce83f81e9 *R/coenoflex.R
-ce15fced8a4bca176da752aba1853fee *inst/ChangeLog
+8780487475e0cf65f993b33ef2ef5363 *inst/ChangeLog
 81d1b332e30f15fefba62f2cbcfb9c59 *man/coenoflex.Rd
 8886f8d96121d86bfc973bef5e203680 *man/plot.coenoflex.Rd
-0eda3563d135e3efcffe7173bf0d97d1 *src/coenoflex.f
+144e1f7dc28d8410eb68dfc53d5556da *src/coenoflex.f
 c878da0c9e6f4bf574431b61d3ffff84 *src/random.c

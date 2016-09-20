@@ -1,3 +1,8 @@
+coenoflex_2.2-0
+
+1) converted a number of REAL*4 to REAL*8 constants to eliminate warnings 
+from the -pedantic switch of gfortran.
+
 coenoflex_2.1-0
 
 1) coenoflex underwent a fairly significant renovation to deal with problems
